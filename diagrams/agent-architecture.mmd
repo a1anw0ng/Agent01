@@ -1,0 +1,28 @@
+graph LR
+    User([User CLI]) --> AE[AgentExecutor]
+
+    AE --> RP[ReAct Loop]
+
+    RP --> T[Thought]
+    T --> A[Action]
+    A --> O[Observation]
+    O --> T
+    O --> FA[Final Answer]
+    FA --> User
+
+    A --> Tools
+
+    subgraph Tools
+        WS[Tavily Web Search]
+        CA[Calculator\nnumexpr]
+        WE[Weather\nwttr.in]
+        UR[URL Reader\nBeautifulSoup]
+        WK[Wikipedia]
+    end
+
+    subgraph AWS Bedrock
+        LLM[Claude Haiku 4.5\nlangchain-aws]
+    end
+
+    RP --> LLM
+    LLM --> RP
